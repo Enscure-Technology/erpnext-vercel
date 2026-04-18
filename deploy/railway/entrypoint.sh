@@ -15,6 +15,14 @@ export SITE_NAME PORT
 
 BENCH=/home/frappe/frappe-bench
 SITES_DIR="$BENCH/sites"
+SITES_INIT=/opt/frappe-sites-init
+
+# Seed the sites volume from the image's pre-built defaults if empty.
+if [[ ! -f "$SITES_DIR/apps.txt" ]]; then
+    echo "[entrypoint] seeding empty sites volume from image defaults..."
+    cp -a "$SITES_INIT/." "$SITES_DIR/"
+    chown -R frappe:frappe "$SITES_DIR"
+fi
 
 # Render nginx config with PORT and SITE_NAME substituted.
 envsubst '${PORT} ${SITE_NAME}' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf

@@ -14,7 +14,9 @@ RUN chmod +x /usr/local/bin/entrypoint.sh \
     && rm -f /etc/nginx/sites-enabled/default \
     && mkdir -p /var/log/supervisor /var/log/nginx \
     && chown -R frappe:frappe /home/frappe/frappe-bench \
-    && chown -R frappe:frappe /var/log/supervisor
+    && chown -R frappe:frappe /var/log/supervisor \
+    && cp -a /home/frappe/frappe-bench/sites /opt/frappe-sites-init \
+    && chown -R frappe:frappe /opt/frappe-sites-init
 
 ENV PORT=8080
 EXPOSE 8080
